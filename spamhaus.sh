@@ -12,7 +12,7 @@
 
 # logger from @phracker
 _log () {
-  echo -e "$(date "+%Y-%m-%d %H:%M:%S.%N"): $@" | tee -a /var/log/spamhaus.log
+  echo -e "$(date "+%Y-%m-%d %H:%M:%S.%N"): $@" | tee -a /var/log/autosecure.log
 }
 
 # path to iptables
@@ -26,17 +26,24 @@ fi
 URL1="https://www.spamhaus.org/drop/drop.txt";
 URL2="https://www.spamhaus.org/drop/edrop.txt";
 
+# Dsheild based on earlier work from
+# http://wiki.brokenpoet.org/wiki/Get_DShield_Blocklist
+# https://github.com/koconder/dshield_automatic_iptables
+URL3="http://feeds.dshield.org/block.txt";
+URL4="https://zeustracker.abuse.ch/blocklist.php?download=ipblocklist";
 
 # save local copy here
-FILE1="/tmp/spamhaus_drop.txt";
-FILE2="/tmp/spamhaus_edrop.txt";
+FILE1="/tmp/autosecure/spamhaus_drop.txt";
+FILE2="/tmp/autosecure/spamhaus_edrop.txt";
+FILE3="/tmp/autosecure/dshield_drop.txt";
+FILE4="/tmp/autosecure/abusech_drop.txt";
 
 # iptables custom chain for Bad IPs
-CHAIN="Spamhaus";
+CHAIN="Autosecure";
 # iptables custom chain for actions
-CHAINACT="SpamhausAct";
+CHAINACT="AutosecureAct";
 
-# Outbound (egress) filtering is not required but makes your Spamhaus setup
+# Outbound (egress) filtering is not required but makes your Autosecure setup
 # complete by providing full inbound and outbound packet filtering. You can
 # toggle outbound filtering on or off with the EGF variable.
 # It is strongly recommended that this option NOT be disabled.
@@ -50,7 +57,7 @@ if [ $? -eq 0 ]; then
 
     # flush the old rules
     $IPTABLES -F $CHAIN &> /dev/null
-    _log "Flushed old rules. Applying updated Spamhaus list..."
+    _log "Flushed old rules. Applying updated Autosecure list..."
 
 else
 
@@ -68,7 +75,7 @@ else
         $IPTABLES -A OUTPUT -j $CHAIN &> /dev/null
     fi
 
-    _log "Chain not detected. Creating new chain and adding Spamhaus list..."
+    _log "Chain not detected. Creating new chain and adding Autoblock list..."
 
 fi;
 
@@ -79,7 +86,7 @@ $IPTABLES -N $CHAINACT &> /dev/null
 $IPTABLES -F $CHAINACT &> /dev/null
 
 # add the ip address log rule to the action chain
-$IPTABLES -A $CHAINACT -p 0 -j LOG --log-prefix "[SPAMHAUS BLOCK]" -m limit --limit 3/min --limit-burst 10  &> /dev/null
+$IPTABLES -A $CHAINACT -p 0 -j LOG --log-prefix "[AUTOSECURE BLOCK]" -m limit --limit 3/min --limit-burst 10  &> /dev/null
 
 # add the ip address drop rule to the action chain
 $IPTABLES -A $CHAINACT -p 0 -j DROP &> /dev/null
@@ -96,18 +103,40 @@ do
 
     # iterate through all known spamming hosts
     _log "Parsing hosts in ${FILE}..."
-    for IP in $( cat $FILE | egrep -v '(^;|^#.*|^$)' | awk '{ print $1}' ); do
 
-        # add the ip address to the chain (source filter)
-        $IPTABLES -A $CHAIN -p 0 -s $IP -j $CHAINACT
+    # Check if we are testing for dSheild (Range), versus static IPs\
+    # @credit: https://github.com/koconder/dshield_automatic_iptables
+    if [ "$FILE" = "$FILE3" ]; then
+        # Block an IP Range
+        for IP in $( cat $FILE | awk '/^[0-9]/' | awk '{print $1"/"$3}'| sort -n)
+            # add the ip address to the chain (source filter)
+            $IPTABLES -A $CHAIN -p 0 -s $IP -j $CHAINACT
 
-        if [ $EGF -ne 0 ]; then
-            # add the ip address to the chain (destination filter)
-            $IPTABLES -A $CHAIN -p 0 -d $IP -j $CHAINACT
-        fi
-        _log "IP: ${IP}"
+            if [ $EGF -ne 0 ]; then
+                # add the ip address to the chain (destination filter)
+                $IPTABLES -A $CHAIN -p 0 -d $IP -j $CHAINACT
+            fi
+            _log "IP: ${IP}"
+        done
+        
+    else
+        # Block a static IP
+        for IP in $( cat $FILE | egrep -v '(^;|^#.*|^$)' | awk '{ print $1}' ) | sort -n; do
 
-    done
+            # add the ip address to the chain (source filter)
+            $IPTABLES -A $CHAIN -p 0 -s $IP -j $CHAINACT
+
+            if [ $EGF -ne 0 ]; then
+                # add the ip address to the chain (destination filter)
+                $IPTABLES -A $CHAIN -p 0 -d $IP -j $CHAINACT
+            fi
+            _log "IP: ${IP}"
+
+        done
+
+    # Finished
+    fi
+
     # remove the spam list
     _log "Done parsing ${FILE}. Removing..."
     unlink ${FILE}
