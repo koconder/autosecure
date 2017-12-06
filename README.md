@@ -33,7 +33,5 @@ crontab -e
 If you need to remove all the Spamhaus rules, run the following:
 <pre>
 sudo iptables -F Spamhaus
-</pre>
-<pre>
 sudo iptables -F SpamhausAct
 </pre>
