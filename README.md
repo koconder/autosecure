@@ -1,12 +1,12 @@
-## Drop Lists ##
+# Drop Lists ##
 A shell script that grabs a number of spam block-lists such as [Spamhaus DROP & EDROP Lists](https://www.spamhaus.org/drop/), [DSheild](https://en.wikipedia.org/wiki/DShield), and [Abuse.ch Free Hosts and Bad IPs](https://zeustracker.abuse.ch/blocklist.php) and adds them to `iptables` to cut down on spam and other malicious activity.
 
-# Uses
+## Uses
 * Secure public facing servers to common treats by blacklisting IP's known for absue
 * Anti-DDOS to some level based on key threats
 * Speed and Realibility using a number of sources to secure servers
 
-# Sources Used
+## Sources Used
 <pre>
 Spamhaus DROP List:		https://www.spamhaus.org/drop/drop.txt
 Spamhaus EDROP List:		https://www.spamhaus.org/drop/edrop.txt
@@ -21,13 +21,13 @@ Place the script somewhere on your server.
 # Download the script
 curl -LO https://github.com/koconder/autosecure/raw/master/autosecure.sh
 
-# make it executable
+### make it executable
 chmod +x autosecure.sh
 
-# set it loose
+### set it loose
 sudo ./autosecure.sh
 
-# confirm the rules have been added
+### confirm the rules have been added
 sudo iptables -L Autosecure -n
 </pre>
 
@@ -37,7 +37,7 @@ In order for the list to automatically update each day, you'll need to setup a c
 # fire up the crontab (no sudo)
 crontab -e
 
-# run the script every day at 3am
+### run the script every day at 3am
 0 3 * * * /{install location}/autosecure.sh
 </pre>
 
