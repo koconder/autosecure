@@ -10,9 +10,20 @@
 # http://www.theunsupported.com/2012/07/block-malicious-ip-addresses/
 # http://www.cyberciti.biz/tips/block-spamming-scanning-with-iptables.html
 
+# Runtime Flag
+# Quiet run for cron usage from @ShamimIslam/spamhaus
+if [ "$1" == "-q" ] ; then
+        QUIET=1
+        shift
+else
+        QUIET=0
+fi
+
 # logger from @phracker
 _log () {
-  echo -e "$(date "+%Y-%m-%d %H:%M:%S.%N"): $@" | tee -a /var/log/autosecure.log
+    if [ $QUIET -eq 0 ] ; then
+        echo -e "$(date "+%Y-%m-%d %H:%M:%S.%N"): $@" | tee -a /var/log/autosecure.log
+    fi
 }
 
 # path to iptables
