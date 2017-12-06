@@ -1,5 +1,5 @@
 ## Spamhaus DROP & EDROP List ##
-A shell script that grabs the latest [Spamhaus DROP & EDROP Lists](https://www.spamhaus.org/drop/) and adds them to `iptables` to cut down on spam and other malicious activity.
+A shell script that grabs a number of spam block-lists such as [Spamhaus DROP & EDROP Lists](https://www.spamhaus.org/drop/) and DSheild and adds them to `iptables` to cut down on spam and other malicious activity. Based on the initial work from @cowgill and Vivek Gite (nixCraft). The initial work has been since updated with a number of additional sources.
 
 ## Installation ##
 Place the script somewhere on your server.
@@ -34,4 +34,15 @@ If you need to remove all the Spamhaus rules, run the following:
 <pre>
 sudo iptables -F Spamhaus
 sudo iptables -F SpamhausAct
+</pre>
+
+## Licences & Contributors ##
+
+This script is licenced under GNU GPL v3, please read LICENCE.md for more information
+
+<pre>
+	David @cowgill
+	Vincent Koc @koconder
+	Volkan @volkan-k
+	Anasxrt @Anasxrt
 </pre>
