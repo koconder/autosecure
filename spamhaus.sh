@@ -89,7 +89,7 @@ do
 
     # iterate through all known spamming hosts
     _log "Parsing hosts in ${FILE}..."
-    for IP in $( cat $FILE | egrep -v '^\s*;' | awk '{ print $1}' ); do
+    for IP in $( cat $FILE | egrep -v '(^;|^#.*|^$)' | awk '{ print $1}' ); do
 
         # add the ip address to the chain (source filter)
         $IPTABLES -A $CHAIN -p 0 -s $IP -j $CHAINACT
