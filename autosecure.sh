@@ -108,7 +108,7 @@ do
     # @credit: https://github.com/koconder/dshield_automatic_iptables
     if [ "$FILE" = "$FILE3" ]; then
         # Block an IP Range
-        for IP in $( cat $FILE | awk '/^[0-9]/' | awk '{print $1"/"$3}'| sort -n)
+        for IP in $( cat $FILE | awk '/^[0-9]/' | awk '{print $1"/"$3}'| sort -n); do
             # add the ip address to the chain (source filter)
             $IPTABLES -A $CHAIN -p 0 -s $IP -j $CHAINACT
 
@@ -121,7 +121,7 @@ do
         
     else
         # Block a static IP
-        for IP in $( cat $FILE | egrep -v '(^;|^#.*|^$)' | awk '{ print $1}' ) | sort -n; do
+        for IP in $( cat $FILE | egrep -v '(^;|^#.*|^$)' | awk '{ print $1}' | sort -n); do
 
             # add the ip address to the chain (source filter)
             $IPTABLES -A $CHAIN -p 0 -s $IP -j $CHAINACT
