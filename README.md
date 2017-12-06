@@ -1,15 +1,12 @@
-## Spamhaus DROP List ##
-A shell script that grabs the latest Spamhaus DROP & EDROP Lists and adds them to iptables. We use this script (among other tools) on our Debian web server & Ubuntu proxy server at [AppThemes](http://www.appthemes.com/) to cut down on spam and other malicious activity.
+## Spamhaus DROP & EDROP List ##
+A shell script that grabs the latest [Spamhaus DROP & EDROP Lists](https://www.spamhaus.org/drop/) and adds them to `iptables` to cut down on spam and other malicious activity.
 
-## Usage ##
+## Installation ##
 Place the script somewhere on your server.
 
 <pre>
-# find a nice home
-cd /home/YOUR-USERNAME/bin/
-
-# create the file and paste
-vim spamhaus.sh
+# Download the script
+curl -LO https://github.com/koconder/autosecure_spamhaus/raw/master/spamhaus.sh
 
 # make it executable
 chmod +x spamhaus.sh
