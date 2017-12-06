@@ -31,6 +31,11 @@ sudo ./autosecure.sh
 sudo iptables -L Autosecure -n
 </pre>
 
+## Run-time Flags ##
+
+To run without output "quite mode", usefull for cronjobs you can use:
+<pre>./autosecure.sh -q</pre>
+
 ## Automatic Updating ##
 In order for the list to automatically update each day, you'll need to setup a cron job with crontab.
 <pre>
@@ -38,7 +43,7 @@ In order for the list to automatically update each day, you'll need to setup a c
 crontab -e
 
 ### run the script every day at 3am
-0 3 * * * /{install location}/autosecure.sh
+0 3 * * * /{install location}/autosecure.sh -q
 </pre>
 
 
@@ -60,4 +65,5 @@ David @cowgill
 Vincent Koc @koconder
 Volkan @volkan-k
 Anasxrt @Anasxrt
+ShamimIslam @ShamimIslam
 </pre>
