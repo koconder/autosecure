@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Automatic pulling of spam lists to block IP's
+# Copyright (C) 2013 David @cowgill
+# Copyright (C) 2014 Vincent Koc @koconder
+# Copyright (C) 2014 Volkan @volkan-k
+# Copyright (C) 2016 Anasxrt @Anasxrt
+
 # based off the following two scripts
 # http://www.theunsupported.com/2012/07/block-malicious-ip-addresses/
 # http://www.cyberciti.biz/tips/block-spamming-scanning-with-iptables.html
@@ -17,12 +23,13 @@ if [[ $IPTABLES == "" ]]; then
 fi
 
 # list of known spammers
-URL1="https://www.spamhaus.org/drop/drop.lasso";
-URL2="https://www.spamhaus.org/drop/edrop.lasso";
+URL1="https://www.spamhaus.org/drop/drop.txt";
+URL2="https://www.spamhaus.org/drop/edrop.txt";
+
 
 # save local copy here
-FILE1="/tmp/drop.lasso";
-FILE2="/tmp/edrop.lasso";
+FILE1="/tmp/spamhaus_drop.txt";
+FILE2="/tmp/spamhaus_edrop.txt";
 
 # iptables custom chain for Bad IPs
 CHAIN="Spamhaus";
