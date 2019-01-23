@@ -1,4 +1,6 @@
 # Autosecure Bad-IP Blocking ##
+[![Build Status](https://travis-ci.org/koconder/ostemper.svg?branch=master)](https://travis-ci.org/koconder/ostemper) [![Donate BTC](https://img.shields.io/badge/donate-BTC-orange.svg)](https://github.com/koconder/ostemper#contributing-and-donations) [![Donate ETH](https://img.shields.io/badge/donate-ETH-orange.svg)](https://etherdonation.com/d?to=0xe6fbd8de8157934767867022b7a8e8691d8df3dc)
+
 A shell script that grabs a number of spam block-lists such as [Spamhaus DROP & EDROP Lists](https://www.spamhaus.org/drop/), [DSheild](https://en.wikipedia.org/wiki/DShield), and [Abuse.ch Free Hosts and Bad IPs](https://zeustracker.abuse.ch/blocklist.php) and adds them to `iptables` to cut down on spam and other malicious activity.
 
 ## Uses
