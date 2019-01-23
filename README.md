@@ -1,5 +1,5 @@
 # Autosecure Bad-IP Blocking ##
-[![Donate BTC](https://img.shields.io/badge/donate-BTC-orange.svg)](https://github.com/koconder/ostemper#contributing-and-donations) [![Donate ETH](https://img.shields.io/badge/donate-ETH-orange.svg)](https://etherdonation.com/d?to=0xe6fbd8de8157934767867022b7a8e8691d8df3dc)
+[![Donate BTC](https://img.shields.io/badge/donate-BTC-orange.svg)](https://github.com/koconder/autosecure#contributing-and-donations) [![Donate ETH](https://img.shields.io/badge/donate-ETH-orange.svg)](https://etherdonation.com/d?to=0xe6fbd8de8157934767867022b7a8e8691d8df3dc)
 
 A shell script that grabs a number of spam block-lists such as [Spamhaus DROP & EDROP Lists](https://www.spamhaus.org/drop/), [DSheild](https://en.wikipedia.org/wiki/DShield), and [Abuse.ch Free Hosts and Bad IPs](https://zeustracker.abuse.ch/blocklist.php) and adds them to `iptables` to cut down on spam and other malicious activity.
 
@@ -55,6 +55,13 @@ If you need to remove all the Autosecure rules, run the following:
 sudo iptables -F Autosecure
 sudo iptables -F AutosecureAct
 </pre>
+
+## Contributing and Donations
+
+If you find something interesting or would like to contribute, please open issue and start disccussion. Feel free to fork and pull request. If this repo has helped you out feel free to donate via BTC/ETH or to the EFF
+- BTC: 14v9knBDAmJAMxWovuLfy7YkLDyfq8phNb
+- ETH: 0xe6fbd8de8157934767867022b7a8e8691d8df3dc
+- EFF: (https://supporters.eff.org/donate/button)
 
 ## Licences & Contributors ##
 
